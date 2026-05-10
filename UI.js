@@ -11,11 +11,12 @@ import BeesAlgorithm from './BeesAlgorithm.js';
 import SchafferN2Function from './SchafferN2Function.js';
 import StyblinskiTangFunction from './StyblinskiTangFunction.js';
 import RastriginFunction from './RastriginFunction.js';
+import BacterialForaging from './BacterialForaging.js';
 
-import SimplexMethod from './SimplexMethod.js';
-import SimplexMethodFabric from './SimplexMethodFabric.js';
-import SimplexFunction1 from './SimplexFunction1.js';
-import SimplexFunction2 from './SimplexFunction2.js';
+//import SimplexMethod from './SimplexMethod.js';
+//import SimplexMethodFabric from './SimplexMethodFabric.js';
+//import SimplexFunction1 from './SimplexFunction1.js';
+//import SimplexFunction2 from './SimplexFunction2.js';
 import ArtificialImmuneNetwork from './ArtificialImmuneNetwork.js';
 
 const scene = new THREE.Scene();
@@ -37,6 +38,7 @@ const algo5Panel = document.getElementById('algo5Panel');
 const algo6Panel = document.getElementById('algo6Panel');
 const algo7Panel = document.getElementById('algo7Panel');
 const algo8Panel = document.getElementById('algo8Panel');
+const algo9Panel = document.getElementById('algo9Panel');
  
 
 const lrInput = document.getElementById('lrInput');
@@ -66,9 +68,9 @@ const functions = {
     '1': SphereFunction, '2': HimmelblauFunction, '3': RosenbrockFunction,
     '4': SchafferN2Function,
     '5': StyblinskiTangFunction, 
-    '6': RastriginFunction,
-    '7': SimplexFunction1,
-    '8': SimplexFunction2    
+    '6': RastriginFunction
+//    '7': SimplexFunction1,
+//    '8': SimplexFunction2    
 
 };
 
@@ -201,11 +203,12 @@ algoSelector.addEventListener('change', (e) => {
     algo6Panel.style.display = e.target.value === '6' ? 'block' : 'none';
     algo7Panel.style.display = e.target.value === '7' ? 'block' : 'none';
     algo8Panel.style.display = e.target.value === '8' ? 'block' : 'none';
+    algo9Panel.style.display = e.target.value === '9' ? 'block' : 'none';
 
-    if (algorithm instanceof SimplexMethod){
-        showSolution(algorithm); 
-    }
-    else { startAnimation(); } 
+//    if (algorithm instanceof SimplexMethod){
+//        showSolution(algorithm); 
+//    }
+    startAnimation(); 
 });
 
 
@@ -269,8 +272,11 @@ function displayPoints(points) {
 
 maxIter.addEventListener('input', () => { 
     if (algorithm instanceof TestAlgorithm1 || 
-        algorithm instanceof GeneticAlgorithm || 
-        algorithm instanceof ParticleSwarm) startAnimation(); 
+    algorithm instanceof GeneticAlgorithm || 
+    algorithm instanceof ParticleSwarm || 
+    algorithm instanceof BeesAlgorithm ||
+    algorithm instanceof ArtificialImmuneNetwork ||
+    algorithm instanceof BacterialForaging) startAnimation();
 });
 
 maxIter.addEventListener('input', () => { if (algorithm instanceof TestAlgorithm1) startAnimation(); });
@@ -287,12 +293,25 @@ inertiaInput.addEventListener('change', () => { if (algorithm instanceof Particl
 cognitiveInput.addEventListener('change', () => { if (algorithm instanceof ParticleSwarm) startAnimation(); });
 socialInput.addEventListener('change', () => { if (algorithm instanceof ParticleSwarm) startAnimation(); });
 
+// BFO listeners
+const bfoBacteriaInput = document.getElementById('bfoBacteria');
+const chemotacticStepsInput = document.getElementById('chemotacticSteps');
+const swimLengthInput = document.getElementById('swimLength');
+const eliminationProbInput = document.getElementById('eliminationProb');
+
+bfoBacteriaInput.addEventListener('change', () => { if (algorithm instanceof BacterialForaging) startAnimation(); });
+chemotacticStepsInput.addEventListener('change', () => { if (algorithm instanceof BacterialForaging) startAnimation(); });
+swimLengthInput.addEventListener('change', () => { if (algorithm instanceof BacterialForaging) startAnimation(); });
+eliminationProbInput.addEventListener('change', () => { if (algorithm instanceof BacterialForaging) startAnimation(); });
+
 
 maxIter.addEventListener('input', () => { 
     if (algorithm instanceof TestAlgorithm1 || 
-        algorithm instanceof GeneticAlgorithm || 
-        algorithm instanceof ParticleSwarm || 
-        algorithm instanceof BeesAlgorithm) startAnimation(); 
+    algorithm instanceof GeneticAlgorithm || 
+    algorithm instanceof ParticleSwarm || 
+    algorithm instanceof BeesAlgorithm ||
+    algorithm instanceof ArtificialImmuneNetwork ||
+    algorithm instanceof BacterialForaging) startAnimation();
 
     //if (algorithm instanceof SimplexMethod) showSolution();
 });
@@ -350,6 +369,16 @@ function createAlgorithm() {
             parseFloat(suppressionThresholdInput.value) || 0.15
         );
     }
+    else if (algoType === '9') {
+    return new BacterialForaging(
+        funcClass,
+        parseInt(bfoBacteriaInput.value) || 40,
+        parseInt(chemotacticStepsInput.value) || 8,
+        parseFloat(swimLengthInput.value) || 0.8,
+        4,
+        parseFloat(eliminationProbInput.value) || 0.15
+    );
+}
 }
 
 animate();
