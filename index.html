@@ -5,7 +5,7 @@
     <style> body { margin: 0; overflow: hidden; } </style>
 </head>
 <body>
-    <div style="position:absolute;top:10px;left:10px;z-index:100;background:#fff;padding:5px;">
+    <div style="position:absolute;top:10px;left:10px;z-index:100;background: rgba(216, 216, 223, 0.95);padding:5px;">
         <button id="pauseBtn">Pause</button>
         <button id="restartBtn">Restart</button>
         <br>
@@ -15,24 +15,23 @@
             <option value="3">Rosenbrock</option>
             <option value="4">ShafferN2</option>
             <option value="5">Styblinski-Tang</option>
-            <option value="6">Rastrigin</option>        
+            <option value="6">Rastrigin</option>
+            <option value="7">SimplexFunction1</option>
+            <option value="8">SimplexFunction2</option>        
         </select>
         <br>
         <select id="algoSelector">
-            <option value="1">TestAlgorithm1</option>
-            <option value="2">TestAlgorithm2</option>
+            <option value="1">TestAlgorithm1</option>            
             <option value="3">GradientDescent</option>
             <option value="4">Genetic Algorithm (ГА)</option>
             <option value="5">Particle Swarm Optimization (PSO)</option>
             <option value="6">Bees Algorithm (Пчелиный рой)</option>
-            <option value="7">Artificial Immune Network (Иммунная сеть)</option>
+            <option value="7">SimplexMethod</option>
+            <option value="8">Artificial Immune Network (Иммунная сеть)</option>
         </select>
         <br>
         <div id="algo1Panel">
             Итераций: <input id="maxIter" type="range" min="20" max="300" value="100">
-        </div>
-        <div id="algo2Panel" style="display:none;">
-            X > <input id="xMin" type="number" value="0" step="0.1">
         </div>
         <div id="algo3Panel" style="display: none;">
             <label>Learning rate: <input type="number" step="0.0001" value="0.01" id="lrInput"></label><br>
@@ -55,6 +54,9 @@
             <label>Перспективных участков: <input id="best" type="number" value="6" min="2" max="15"></label>
         </div>
         <div id="algo7Panel" style="display: none;">
+            Итераций: <input id="simplexMaxIter" type="range" min="20" max="100" value="100">
+        </div>
+        <div id="algo8Panel" style="display: none;">
             <label>Размер популяции: <input id="immunePopSize" type="number" value="60" min="20" max="200"></label><br>
             <label>Коэффициент клонов: <input id="cloneMultiplier" type="number" value="8" min="2" max="20"></label><br>
             <label>Сила мутации: <input id="mutationRate" type="number" step="0.05" value="0.3" min="0.1" max="1"></label><br>
