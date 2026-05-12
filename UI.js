@@ -12,6 +12,7 @@ import SchafferN2Function from './SchafferN2Function.js';
 import StyblinskiTangFunction from './StyblinskiTangFunction.js';
 import RastriginFunction from './RastriginFunction.js';
 import BacterialForaging from './BacterialForaging.js';
+import HybridGA_PSO from './HybridGA_PSO.js';
 
 //import SimplexMethod from './SimplexMethod.js';
 //import SimplexMethodFabric from './SimplexMethodFabric.js';
@@ -39,6 +40,7 @@ const algo6Panel = document.getElementById('algo6Panel');
 const algo7Panel = document.getElementById('algo7Panel');
 const algo8Panel = document.getElementById('algo8Panel');
 const algo9Panel = document.getElementById('algo9Panel');
+const algo10Panel = document.getElementById('algo10Panel');
  
 
 const lrInput = document.getElementById('lrInput');
@@ -177,10 +179,6 @@ function showSolution(simplex_algorithm) {
 }
 
 
-
-
-
-
 funcSelector.addEventListener('change', (e) => {
     funcClass = functions[e.target.value];
     createFuncMesh();
@@ -204,6 +202,7 @@ algoSelector.addEventListener('change', (e) => {
     algo7Panel.style.display = e.target.value === '7' ? 'block' : 'none';
     algo8Panel.style.display = e.target.value === '8' ? 'block' : 'none';
     algo9Panel.style.display = e.target.value === '9' ? 'block' : 'none';
+    algo10Panel.style.display = e.target.value === '10' ? 'block' : 'none';
 
 //    if (algorithm instanceof SimplexMethod){
 //        showSolution(algorithm); 
@@ -304,6 +303,25 @@ chemotacticStepsInput.addEventListener('change', () => { if (algorithm instanceo
 swimLengthInput.addEventListener('change', () => { if (algorithm instanceof BacterialForaging) startAnimation(); });
 eliminationProbInput.addEventListener('change', () => { if (algorithm instanceof BacterialForaging) startAnimation(); });
 
+// Слушатели для Hybrid GA + PSO
+const hybridPopSizeInput = document.getElementById('hybridPopSize');
+const gaGenerationsInput = document.getElementById('gaGenerations');
+const hybridPcInput = document.getElementById('hybridPc');
+const hybridPmInput = document.getElementById('hybridPm');
+
+hybridPopSizeInput.addEventListener('change', () => { 
+    if (algorithm instanceof HybridGA_PSO) startAnimation(); 
+});
+gaGenerationsInput.addEventListener('change', () => { 
+    if (algorithm instanceof HybridGA_PSO) startAnimation(); 
+});
+hybridPcInput.addEventListener('change', () => { 
+    if (algorithm instanceof HybridGA_PSO) startAnimation(); 
+});
+hybridPmInput.addEventListener('change', () => { 
+    if (algorithm instanceof HybridGA_PSO) startAnimation(); 
+});
+
 
 maxIter.addEventListener('input', () => { 
     if (algorithm instanceof TestAlgorithm1 || 
@@ -311,7 +329,8 @@ maxIter.addEventListener('input', () => {
     algorithm instanceof ParticleSwarm || 
     algorithm instanceof BeesAlgorithm ||
     algorithm instanceof ArtificialImmuneNetwork ||
-    algorithm instanceof BacterialForaging) startAnimation();
+    algorithm instanceof BacterialForaging || 
+    algorithm instanceof HybridGA_PSO) startAnimation();
 
     //if (algorithm instanceof SimplexMethod) showSolution();
 });
@@ -377,6 +396,15 @@ function createAlgorithm() {
         parseFloat(swimLengthInput.value) || 0.8,
         4,
         parseFloat(eliminationProbInput.value) || 0.15
+    );
+    }
+    else if (algoType === '10') {
+    return new HybridGA_PSO(
+        funcClass,
+        parseInt(hybridPopSizeInput.value) || 50,
+        parseInt(gaGenerationsInput.value) || 60,
+        parseFloat(hybridPcInput.value) || 0.8,
+        parseFloat(hybridPmInput.value) || 0.01
     );
 }
 }
